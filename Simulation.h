@@ -15,7 +15,9 @@
 #include "Player.h"
 #include <vector>
 
-const int NUM_PLAYERS = 10;
+const int NUM_PLAYERS = 200;
+
+enum WhichAlgorithm: int {SELFISH = 0, OPTIMAL = 1};
 
 class Simulation
 {
@@ -23,19 +25,20 @@ public:
 	Simulation();
 	~Simulation();
 
-	/*---iterate()-------------------------------------------------------------
-	* Iterate one step through the simulation
+	/*---runSim()--------------------------------------------------------------
+	* Iterate through the simulation using either the selfish or optimal
+	*   version of the travelsal algorithm
 	*
 	* pre:  none
-	* post:
+	* post: every player gets through the graph
 	*------------------------------------------------------------------------*/
-	void iterate();
+	float runSim(WhichAlgorithm greedyOrOptimal = SELFISH);
 
 	/*---displayMap()----------------------------------------------------------
 	* Display a representation of the map
 	*
 	* pre:  none
-	* post:
+	* post: returns the average travel time for a player
 	*------------------------------------------------------------------------*/
 	void displayMap();
 
@@ -46,6 +49,14 @@ public:
 	* post:
 	*------------------------------------------------------------------------*/
 	void displayPlayers();
+
+	/*---resetGraph()----------------------------------------------------------
+	* Reset the graph to prepare to run the simulation again
+	*
+	* pre:  none
+	* post: the graph is reset
+	*------------------------------------------------------------------------*/
+	void resetGraph();
 private:
 	Graph simMap;
 	std::vector<Player*> players;

@@ -22,6 +22,7 @@ Graph::Graph()
 
     nodes.resize(NUM_NODES, nullptr);
     edges.resize(NUM_NODES, std::vector<int>(NUM_NODES, 0));
+    initialEdges.resize(NUM_NODES, std::vector<int>(NUM_NODES, 0));
 
 	for (int i = 0; i < edges.size(); i++)
 	{
@@ -31,7 +32,9 @@ Graph::Graph()
             {
                 if ((distr2(eng2) % 3) == 0) // control the frequency of edges
                 {
-                    edges[i][j] = distr(eng);
+                    int randLength = distr(eng);
+                    edges[i][j] = randLength;
+                    initialEdges[i][j] = randLength;
                 }
             }
         }
@@ -110,7 +113,7 @@ int minDistance(std::vector<int> & dist, std::vector<bool> & sptSet)
    return min_index;
 }
 
-std::deque<int> Graph::traverse(int start, int dest)
+std::deque<int> Graph::traverseSelfish(int start, int dest)
 {
     std::vector<int> dist; // hold the distances from each node to start
     dist.resize(NUM_NODES, INT_MAX);
@@ -122,8 +125,6 @@ std::deque<int> Graph::traverse(int start, int dest)
     prev.resize(NUM_NODES, -1);
 
     std::deque<int> shortestPath;
-
-//    shortestPath.push_back(start);
 
     dist[start] = 0;
 
@@ -140,9 +141,11 @@ std::deque<int> Graph::traverse(int start, int dest)
         {
             int adjNode = nodes[u]->adjacentNodes[j];
 
-            if ((!sptSet[adjNode]) && (edges[u][adjNode]) && (dist[u] != INT_MAX) && ((dist[u] + edges[u][adjNode]) < dist[adjNode]))
+            if ((!sptSet[adjNode]) && (initialEdges[u][adjNode]) && (dist[u] != INT_MAX) && ((dist[u] + initialEdges[u][adjNode]) < dist[adjNode])) // find travel time based solely on distance
             {
                 dist[adjNode] = dist[u] + edges[u][adjNode];
+
+                edges[u][adjNode]++; // each player adds congesting to the edges they traverse
 
                 prev[adjNode] = u;
             }
@@ -162,9 +165,54 @@ std::deque<int> Graph::traverse(int start, int dest)
     return shortestPath;
 }
 
-std::deque<int> Graph::optimalTraverse(int start, int dest)
+std::deque<int> Graph::traverseOptimal(int start, int dest)
 {
+    std::vector<int> dist; // hold the distances from each node to start
+    dist.resize(NUM_NODES, INT_MAX);
+
+    std::vector<bool> sptSet; // is the node included in the shortest path tree
+    sptSet.resize(NUM_NODES, false);
+
+    std::vector<int> prev;
+    prev.resize(NUM_NODES, -1);
+
     std::deque<int> shortestPath;
+
+    dist[start] = 0;
+
+    // find the shortest path for each vertex
+    for (int i = 0; i < NUM_NODES; i++) // for each node in the graph
+    {
+        int u = minDistance(dist, sptSet);
+
+        if (u == dest) break;
+
+        sptSet[u] = true;
+
+        for (int j = 0; j < nodes[u]->adjacentNodes.size(); j++) // for each node adjacent to u
+        {
+            int adjNode = nodes[u]->adjacentNodes[j];
+
+            if ((!sptSet[adjNode]) && (edges[u][adjNode]) && (dist[u] != INT_MAX) && ((dist[u] + edges[u][adjNode]) < dist[adjNode])) // find travel time based on distance + congestion
+            {
+                dist[adjNode] = dist[u] + edges[u][adjNode];
+
+                edges[u][adjNode]++; // each player adds congesting to the edges they traverse
+
+                prev[adjNode] = u;
+            }
+        }
+    }
+
+    int u = dest;
+
+    while (prev[u] != -1)
+    {
+        shortestPath.push_front(u);
+        u = prev[u];
+    }
+
+    shortestPath.push_front(u);
 
     return shortestPath;
 }
@@ -184,8 +232,7 @@ int Graph::traversalDistance(int start, int dest)
     {
         int u = minDistance(dist, sptSet);
 
-        if (u == dest)
-            break;
+        if (u == dest) break;
 
         sptSet[u] = true;
 
@@ -202,4 +249,11 @@ int Graph::traversalDistance(int start, int dest)
     }
 
     return dist[dest];
+}
+
+void Graph::resetGraph()
+{
+    for (int i = 0; i < edges.size(); i++)
+        for (int j = 0; j < edges.size(); j++)
+            edges[i][j] = initialEdges[i][j];
 }
