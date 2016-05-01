@@ -4,10 +4,8 @@
 
 #include "Graph.h"
 #include <random>
-#include <cmath>
 #include <iostream>
-#include <algorithm>
-#include <climits>
+#include <climits> // MAX_INT
 
 Graph::Graph()
 {
@@ -137,15 +135,21 @@ std::deque<int> Graph::traverseSelfish(int start, int dest)
 
         sptSet[u] = true;
 
-        for (int j = 0; j < nodes[u]->adjacentNodes.size(); j++) // for each node adjacent to u
+        // for each node adjacent to u
+        for (int j = 0; j < nodes[u]->adjacentNodes.size(); j++)
         {
             int adjNode = nodes[u]->adjacentNodes[j];
 
-            if ((!sptSet[adjNode]) && (initialEdges[u][adjNode]) && (dist[u] != INT_MAX) && ((dist[u] + initialEdges[u][adjNode]) < dist[adjNode])) // find travel time based solely on distance
+            // find travel time based solely on distance
+            if ((!sptSet[adjNode]) && (initialEdges[u][adjNode])
+                && (dist[u] != INT_MAX)
+                && ((dist[u] + initialEdges[u][adjNode]) < dist[adjNode]))
             {
+                // actual travel distance is still based on congestion though
                 dist[adjNode] = dist[u] + edges[u][adjNode];
 
-                edges[u][adjNode]++; // each player adds congesting to the edges they traverse
+                // each player adds congesting to the edges they traverse
+                edges[u][adjNode]++;
 
                 prev[adjNode] = u;
             }
@@ -189,15 +193,20 @@ std::deque<int> Graph::traverseOptimal(int start, int dest)
 
         sptSet[u] = true;
 
-        for (int j = 0; j < nodes[u]->adjacentNodes.size(); j++) // for each node adjacent to u
+        // for each node adjacent to u
+        for (int j = 0; j < nodes[u]->adjacentNodes.size(); j++)
         {
             int adjNode = nodes[u]->adjacentNodes[j];
 
-            if ((!sptSet[adjNode]) && (edges[u][adjNode]) && (dist[u] != INT_MAX) && ((dist[u] + edges[u][adjNode]) < dist[adjNode])) // find travel time based on distance + congestion
+            // find travel time based on distance + congestion
+            if ((!sptSet[adjNode]) && (edges[u][adjNode])
+                && (dist[u] != INT_MAX)
+                && ((dist[u] + edges[u][adjNode]) < dist[adjNode]))
             {
                 dist[adjNode] = dist[u] + edges[u][adjNode];
 
-                edges[u][adjNode]++; // each player adds congesting to the edges they traverse
+                // each player adds congesting to the edges they traverse
+                edges[u][adjNode]++;
 
                 prev[adjNode] = u;
             }
@@ -236,12 +245,15 @@ int Graph::traversalDistance(int start, int dest)
 
         sptSet[u] = true;
 
-        for (int j = 0; j < nodes[u]->adjacentNodes.size(); j++) // for each node adjacent to u
+        // for each node adjacent to u
+        for (int j = 0; j < nodes[u]->adjacentNodes.size(); j++)
         {
             int adjNode = nodes[u]->adjacentNodes[j];
 
-            // if adjNode is not in the shortest path tree, there is an edge between u and adjNode,
-            if ((!sptSet[adjNode]) && (edges[u][adjNode]) && (dist[u] != INT_MAX) && ((dist[u] + edges[u][adjNode]) < dist[adjNode]))
+            // find travel time based on distance + congestion
+            if ((!sptSet[adjNode]) && (edges[u][adjNode])
+                && (dist[u] != INT_MAX)
+                && ((dist[u] + edges[u][adjNode]) < dist[adjNode]))
             {
                 dist[adjNode] = dist[u] + edges[u][adjNode];
             }

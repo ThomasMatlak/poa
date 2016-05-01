@@ -5,7 +5,7 @@
 #include "Simulation.h"
 #include <random>
 #include <iostream>
-#include <climits>
+#include <climits> // INT_MAX
 #include <deque>
 
 Simulation::Simulation()
@@ -24,7 +24,10 @@ Simulation::Simulation()
             playerStart = distr(eng);
             playerEnd  = distr(eng);
         }
-        while ((simMap.traversalDistance(playerStart, playerEnd) == INT_MAX) || (playerStart == playerEnd)); // ensure a player's destination is possible and not starting and ending at the same place
+        /* ensure a player's destination is possible and the player is not
+        *  starting and ending at the same place */
+        while ((simMap.traversalDistance(playerStart, playerEnd) == INT_MAX)
+            || (playerStart == playerEnd));
 
 		Player* player = new Player(playerStart, playerEnd);
 
@@ -83,7 +86,10 @@ void Simulation::displayPlayers()
 	std::cout << "PLAYER TRAVEL DISTANCES:" << std::endl;
 	for (int j = 0; j < NUM_PLAYERS; j++)
 	{
-        int distance = simMap.traversalDistance(players[j]->getStart(), players[j]->getDestination());
+        int start = players[j]->getStart();
+        int dest  = players[j]->getDestination();
+
+        int distance = simMap.traversalDistance(start, dest);
 
         std::cout << j << ": " << distance << std::endl;
 
@@ -93,7 +99,7 @@ void Simulation::displayPlayers()
         else
         {
             std::cout << j << ": " << distance << "|";
-            std::deque<int> path = simMap.traverseSelfish(players[j]->getStart(), players[j]->getDestination());
+            std::deque<int> path = simMap.traverseSelfish(start, dest);
             while (!path.empty())
             {
                 std::cout << path.front();

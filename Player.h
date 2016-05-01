@@ -4,9 +4,6 @@
 * Player Class
 *
 * Operations:
-*	setStart()           - Set the player's starting position
-*	setCurrentPosition() - Set the player's current position
-*	setDestination()     - Set the player's destination
 *	getStart()           - Get the player's starting position
 *	getCurrentPosition() - Get the player's current position
 *	getDestination()     - Get the player's destination
@@ -18,7 +15,18 @@
 class Player
 {
 public:
+    /*---Player()--------------------------------------------------------------
+    * Player constructor
+    *
+    * start - the player's starting node
+    * dest  - the player's destination node
+    *
+    * pre:  none
+    * post: new Player is created
+    *------------------------------------------------------------------------*/
+
 	Player(int start, int dest);
+
 	~Player();
 
 	/*---getStart()------------------------------------------------------------
@@ -46,9 +54,5 @@ public:
 	void printInfo();
 private:
 	int startingNode; //the index of the player's starting position
-
 	int destination; // the index of the destination node
-
-	int timeToTraverse;
-	// the time it will take the player to go from start to their destination
 };

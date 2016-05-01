@@ -4,9 +4,10 @@
 * Simulation Class
 *
 * Operations:
-*	iterate()        - Iterate one step through the simulation
+*	runSim()         - Iterate through the simulation
 *	displayMap()     - Display a representation of the map
 *	displayPlayers() - Display the information of the players in the simulation
+*   resetGraph()     - Reset the graph to its starting state
 *----------------------------------------------------------------------------*/
 
 #pragma once
@@ -29,16 +30,19 @@ public:
 	* Iterate through the simulation using either the selfish or optimal
 	*   version of the travelsal algorithm
 	*
+	* greedyOrOptimal - which version of the graph traversal to use
+	*   Options are SELFISH or OPTIMAL
+	*   Default is SELFISH
 	* pre:  none
-	* post: every player gets through the graph
+	* post: he average travel time is returned
 	*------------------------------------------------------------------------*/
 	float runSim(WhichAlgorithm greedyOrOptimal = SELFISH);
 
 	/*---displayMap()----------------------------------------------------------
-	* Display a representation of the map
+	* Display information about the graph
 	*
 	* pre:  none
-	* post: returns the average travel time for a player
+	* post: graph information is printed
 	*------------------------------------------------------------------------*/
 	void displayMap();
 
@@ -46,7 +50,7 @@ public:
 	* Display the information of the players in the simulation
 	*
 	* pre:  none
-	* post:
+	* post: player information is printed
 	*------------------------------------------------------------------------*/
 	void displayPlayers();
 
