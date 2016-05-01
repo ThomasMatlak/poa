@@ -1,0 +1,8 @@
+Debug/
+*~
+*.o
+poaCalc/
+poaCalculator
+*.zip
+*.vcxproj
+*.vcxproj.filters
