@@ -42,18 +42,21 @@ int main()
 
     float selfishRun = sim.runSim(SELFISH);
     std::cout << "Selfish average travel time: " << selfishRun << std::endl;
-//    sim.displayPlayers();
     sim.resetGraph();
 
     float optimalRun = sim.runSim(OPTIMAL);
     std::cout << "Optimal average travel time: " << optimalRun << std::endl;
-//    sim.displayPlayers();
     sim.resetGraph();
 
-    float poa = 1 - (optimalRun / selfishRun);
-    std::cout << "The Price of Anarchy in this system is " << poa << std::endl;
+    float poa = optimalRun / selfishRun;
 
-#ifdef _WIN32 // this is a Windows specific command to prevent cmd from closing
+    std::cout << "POA is: " << poa << std::endl;
+
+    std::cout << "The optimal system is " << 100 * ((1 / poa) - 1)
+        << "% more efficient" << std::endl;
+
+#ifdef _WIN32 /* this is a Windows specific command to prevent the VS debugger
+                 from closing immediately*/
 	system("pause");
 #endif // _WIN32
 

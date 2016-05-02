@@ -22,9 +22,9 @@ Graph::Graph()
     edges.resize(NUM_NODES, std::vector<int>(NUM_NODES, 0));
     initialEdges.resize(NUM_NODES, std::vector<int>(NUM_NODES, 0));
 
-	for (int i = 0; i < edges.size(); i++)
+	for (size_t i = 0; i < edges.size(); i++)
 	{
-        for (int j = 0; j < edges[i].size(); j++)
+        for (size_t j = 0; j < edges[i].size(); j++)
         {
             if (i != j)
             {
@@ -39,11 +39,11 @@ Graph::Graph()
 	}
 
     // set up node adjacency
-	for (int i = 0; i < edges.size(); i++)
+	for (size_t i = 0; i < edges.size(); i++)
 	{
         Node* node = new Node;
         nodes[i] = node;
-        for (int j = 0; j < edges[i].size(); j++)
+        for (size_t j = 0; j < edges[i].size(); j++)
         {
             if (edges[i][j] > 0) {
                 nodes[i]->adjacentNodes.push_back(j);
@@ -54,7 +54,7 @@ Graph::Graph()
 
 Graph::~Graph()
 {
-    for (int i = 0; i < nodes.size(); i++)
+    for (size_t i = 0; i < nodes.size(); i++)
     {
         delete nodes[i];
     }
@@ -66,7 +66,7 @@ void Graph::printGraph()
     for (int m = 0; m < NUM_NODES; m++)
     {
         std::cout << m << ": ";
-        for (int n = 0; n < nodes[m]->adjacentNodes.size(); n++)
+        for (size_t n = 0; n < nodes[m]->adjacentNodes.size(); n++)
         {
             std::cout << nodes[m]->adjacentNodes[n] << " ";
         }
@@ -84,10 +84,10 @@ void Graph::printGraph()
         std::cout << "- ";
     }
     std::cout << std::endl;
-    for (int i = 0; i < edges.size(); i++)
+    for (size_t i = 0; i < edges.size(); i++)
     {
         std::cout << i << "|";
-        for (int j = 0; j < edges[i].size(); j++)
+        for (size_t j = 0; j < edges[i].size(); j++)
         {
             std::cout << edges[i][j] << " ";
         }
@@ -136,7 +136,7 @@ std::deque<int> Graph::traverseSelfish(int start, int dest)
         sptSet[u] = true;
 
         // for each node adjacent to u
-        for (int j = 0; j < nodes[u]->adjacentNodes.size(); j++)
+        for (size_t j = 0; j < nodes[u]->adjacentNodes.size(); j++)
         {
             int adjNode = nodes[u]->adjacentNodes[j];
 
@@ -194,7 +194,7 @@ std::deque<int> Graph::traverseOptimal(int start, int dest)
         sptSet[u] = true;
 
         // for each node adjacent to u
-        for (int j = 0; j < nodes[u]->adjacentNodes.size(); j++)
+        for (size_t j = 0; j < nodes[u]->adjacentNodes.size(); j++)
         {
             int adjNode = nodes[u]->adjacentNodes[j];
 
@@ -246,7 +246,7 @@ int Graph::traversalDistance(int start, int dest)
         sptSet[u] = true;
 
         // for each node adjacent to u
-        for (int j = 0; j < nodes[u]->adjacentNodes.size(); j++)
+        for (size_t j = 0; j < nodes[u]->adjacentNodes.size(); j++)
         {
             int adjNode = nodes[u]->adjacentNodes[j];
 
@@ -265,7 +265,7 @@ int Graph::traversalDistance(int start, int dest)
 
 void Graph::resetGraph()
 {
-    for (int i = 0; i < edges.size(); i++)
-        for (int j = 0; j < edges.size(); j++)
+    for (size_t i = 0; i < edges.size(); i++)
+        for (size_t j = 0; j < edges.size(); j++)
             edges[i][j] = initialEdges[i][j];
 }
