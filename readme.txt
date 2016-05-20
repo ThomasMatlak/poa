@@ -7,10 +7,9 @@ Description
 -----------
 The program compares the average travel times of several players in a graph
   when they make their own choices regarding how they travel versus being
-  told by a central system telling them their path  to calculate the
-  Price Of Anarchy
+  told their path by a central system in order to calculate the Price Of Anarchy
 
-An undirected graph is randomly generated and the starting/ending points of
+A directed graph is randomly generated and the starting/ending points of
   each player are random each time
 
 Instructions
