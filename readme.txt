@@ -14,7 +14,7 @@ A directed graph is randomly generated and the starting/ending points of
 
 Instructions
 ------------
-To run the program, simply run the executable
+To run the program, complie source code and run the executable
 To change the number of players, change const int NUM_PLAYERS on line 19 of
   Simulation.h
 To change the number of nodes, change const int NUM_NODES on line 22 of
@@ -24,8 +24,8 @@ To change the maximum edge length, change const int MAX_EDGE_LENGTH on line
 
 Future Work
 -----------
-This program can be improved by adding a GUI representation of the
-graph and the traversal by the players
+* add a GUI representation of the graph and the traversal by the players
+* run the program through steps of "time" to get real-time congestion
 
 Author
 ------
