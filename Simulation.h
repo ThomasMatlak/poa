@@ -16,14 +16,12 @@
 #include "Player.h"
 #include <vector>
 
-const int NUM_PLAYERS = 200;
-
 enum WhichAlgorithm: int {SELFISH = 0, OPTIMAL = 1};
 
 class Simulation
 {
 public:
-	Simulation();
+	Simulation(int setNumPlayers, int setNumNodes, int setMaxEdgeLength);
 	~Simulation();
 
 	/*---runSim()--------------------------------------------------------------
@@ -62,7 +60,8 @@ public:
 	*------------------------------------------------------------------------*/
 	void resetGraph();
 private:
-	Graph simMap;
+	Graph *simMap;
 	std::vector<Player*> players;
 	std::vector<int> travelTimes;
+    int numPlayers;
 };

@@ -7,20 +7,23 @@
 #include <iostream>
 #include <climits> // MAX_INT
 
-Graph::Graph()
+Graph::Graph(int setNumNodes, int setMaxEdgeLength)
 {
+    numNodes = setNumNodes;
+    maxEdgeLength = setMaxEdgeLength;
+
 	// randomly make connections between nodes
 	std::random_device connectNode;
 	std::mt19937 eng(connectNode());
-	std::uniform_int_distribution<> distr(1, MAX_EDGE_LENGTH);
+	std::uniform_int_distribution<> distr(1, maxEdgeLength);
 
     std::random_device doConnectNode;
 	std::mt19937 eng2(doConnectNode());
-	std::uniform_int_distribution<> distr2(0, NUM_NODES);
+	std::uniform_int_distribution<> distr2(0, numNodes);
 
-    nodes.resize(NUM_NODES, nullptr);
-    edges.resize(NUM_NODES, std::vector<int>(NUM_NODES, 0));
-    initialEdges.resize(NUM_NODES, std::vector<int>(NUM_NODES, 0));
+    nodes.resize(numNodes, nullptr);
+    edges.resize(numNodes, std::vector<int>(numNodes, 0));
+    initialEdges.resize(numNodes, std::vector<int>(numNodes, 0));
 
 	for (size_t i = 0; i < edges.size(); i++)
 	{
@@ -63,7 +66,7 @@ Graph::~Graph()
 void Graph::printGraph()
 {
     std::cout << "NODES ADJACENT NODES" << std::endl;
-    for (int m = 0; m < NUM_NODES; m++)
+    for (int m = 0; m < numNodes; m++)
     {
         std::cout << m << ": ";
         for (size_t n = 0; n < nodes[m]->adjacentNodes.size(); n++)
@@ -74,12 +77,12 @@ void Graph::printGraph()
     }
 
     std::cout << "EDGES:" << std::endl << "  ";
-    for (int f = 0; f < NUM_NODES; f++)
+    for (int f = 0; f < numNodes; f++)
     {
         std::cout << f << " ";
     }
     std::cout << std::endl << "  ";
-    for (int f = 0; f < NUM_NODES; f++)
+    for (int f = 0; f < numNodes; f++)
     {
         std::cout << "- ";
     }
@@ -97,12 +100,12 @@ void Graph::printGraph()
 
 // A utility function to find the vertex with minimum distance value, from
 // the set of vertices not yet included in shortest path tree
-int minDistance(std::vector<int> & dist, std::vector<bool> & sptSet)
+int minDistance(std::vector<int> & dist, std::vector<bool> & sptSet, Graph & const graph)
 {
    // Initialize min value
    int min = INT_MAX, min_index;
 
-   for (int v = 0; v < NUM_NODES; v++)
+   for (int v = 0; v < graph.numNodes; v++)
    {
      if (sptSet[v] == false && dist[v] <= min)
          min = dist[v], min_index = v;
@@ -114,22 +117,22 @@ int minDistance(std::vector<int> & dist, std::vector<bool> & sptSet)
 std::deque<int> Graph::traverseSelfish(int start, int dest)
 {
     std::vector<int> dist; // hold the distances from each node to start
-    dist.resize(NUM_NODES, INT_MAX);
+    dist.resize(numNodes, INT_MAX);
 
     std::vector<bool> sptSet; // is the node included in the shortest path tree
-    sptSet.resize(NUM_NODES, false);
+    sptSet.resize(numNodes, false);
 
     std::vector<int> prev;
-    prev.resize(NUM_NODES, -1);
+    prev.resize(numNodes, -1);
 
     std::deque<int> shortestPath;
 
     dist[start] = 0;
 
     // find the shortest path for each vertex
-    for (int i = 0; i < NUM_NODES; i++) // for each node in the graph
+    for (int i = 0; i < numNodes; i++) // for each node in the graph
     {
-        int u = minDistance(dist, sptSet);
+        int u = minDistance(dist, sptSet, *this);
 
         if (u == dest) break;
 
@@ -172,22 +175,22 @@ std::deque<int> Graph::traverseSelfish(int start, int dest)
 std::deque<int> Graph::traverseOptimal(int start, int dest)
 {
     std::vector<int> dist; // hold the distances from each node to start
-    dist.resize(NUM_NODES, INT_MAX);
+    dist.resize(numNodes, INT_MAX);
 
     std::vector<bool> sptSet; // is the node included in the shortest path tree
-    sptSet.resize(NUM_NODES, false);
+    sptSet.resize(numNodes, false);
 
     std::vector<int> prev;
-    prev.resize(NUM_NODES, -1);
+    prev.resize(numNodes, -1);
 
     std::deque<int> shortestPath;
 
     dist[start] = 0;
 
     // find the shortest path for each vertex
-    for (int i = 0; i < NUM_NODES; i++) // for each node in the graph
+    for (int i = 0; i < numNodes; i++) // for each node in the graph
     {
-        int u = minDistance(dist, sptSet);
+        int u = minDistance(dist, sptSet, *this);
 
         if (u == dest) break;
 
@@ -229,17 +232,17 @@ std::deque<int> Graph::traverseOptimal(int start, int dest)
 int Graph::traversalDistance(int start, int dest)
 {
     std::vector<int> dist; // hold the distances from each node to start
-    dist.resize(NUM_NODES, INT_MAX);
+    dist.resize(numNodes, INT_MAX);
 
     std::vector<bool> sptSet; // is the node included in the shortest path tree
-    sptSet.resize(NUM_NODES, false);
+    sptSet.resize(numNodes, false);
 
     dist[start] = 0;
 
     // find the shortest path for each vertex
-    for (int i = 0; i < NUM_NODES; i++) // for each node in the graph
+    for (int i = 0; i < numNodes; i++) // for each node in the graph
     {
-        int u = minDistance(dist, sptSet);
+        int u = minDistance(dist, sptSet, *this);
 
         if (u == dest) break;
 
@@ -268,4 +271,9 @@ void Graph::resetGraph()
     for (size_t i = 0; i < edges.size(); i++)
         for (size_t j = 0; j < edges.size(); j++)
             edges[i][j] = initialEdges[i][j];
+}
+
+int Graph::getNumNodes()
+{
+    return numNodes;
 }

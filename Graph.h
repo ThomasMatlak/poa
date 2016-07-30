@@ -19,9 +19,6 @@
 #include <vector>
 #include <deque>
 
-const int NUM_NODES = 250;
-const int MAX_EDGE_LENGTH = 20;
-
 struct Node {
     std::vector<int> adjacentNodes;
 };
@@ -32,7 +29,7 @@ struct Node {
 class Graph
 {
 public:
-	Graph();
+	Graph(int setNumNodes, int setMaxEdgeLength);
 
 	~Graph();
 
@@ -86,10 +83,15 @@ public:
     *------------------------------------------------------------------------*/
     void resetGraph();
 
+    int getNumNodes();
+
+    friend int minDistance(std::vector<int>& dist, std::vector<bool>& sptSet, Graph & const graph);
 private:
     std::vector<Node*> nodes; /* this could be done as a vector of a vector of
                                  adjacent nodes, but this allows for nodes to
                                  contain more information in the future */
 	std::vector<std::vector<int>> edges;
 	std::vector<std::vector<int>> initialEdges; // = edges
+    int numNodes;
+    int maxEdgeLength;
 };

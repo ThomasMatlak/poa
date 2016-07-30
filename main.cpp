@@ -22,12 +22,6 @@
 * Known bugs:
 * Instructions:
 *   To run the program, simply run the executable
-*   To change the number of players, change const int NUM_PLAYERS on line 19 of
-*     Simulation.h
-*   To change the number of nodes, change const int NUM_NODES on line 22 of
-*     Graph.h
-*   To change the maximum edge length, change const int MAX_EDGE_LENGTH on line
-*     23 of Graph.h
 *----------------------------------------------------------------------------*/
 
 #include <iostream>
@@ -35,10 +29,30 @@
 
 int main()
 {
-	Simulation sim;
+    int numPlayers, numNodes, maxEdgeLength;
 
-    std::cout << "Number of Nodes: " << NUM_NODES << std::endl;
-    std::cout << "Number of Players: " << NUM_PLAYERS << std::endl;
+    do
+    {
+        std::cout << "Enter the number of players to traverse the graph: ";
+        std::cin >> numPlayers;
+    } while (numPlayers <= 0);
+
+    do
+    {
+        std::cout << "Enter the number of nodes for the graph to have: ";
+        std::cin >> numNodes;
+    } while (numNodes < 2);
+
+    do
+    {
+        std::cout << "Enter the maximum length for a graph edge: ";
+        std::cin >> maxEdgeLength;
+    } while (maxEdgeLength < 1);
+
+	Simulation sim(numPlayers, numNodes, maxEdgeLength);
+
+    std::cout << "Number of Nodes: " << numNodes << std::endl;
+    std::cout << "Number of Players: " << numPlayers << std::endl;
 
     float selfishRun = sim.runSim(SELFISH);
     std::cout << "Selfish average travel time: " << selfishRun << std::endl;

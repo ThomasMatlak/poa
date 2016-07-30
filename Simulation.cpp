@@ -8,13 +8,16 @@
 #include <climits> // INT_MAX
 #include <deque>
 
-Simulation::Simulation()
+Simulation::Simulation(int setNumPlayers, int setNumNodes, int setMaxEdgeLength)
 {
+    numPlayers = setNumPlayers;
+    simMap = new Graph(setNumNodes, setMaxEdgeLength);
+
 	std::random_device rd;
 	std::mt19937 eng(rd());
-	std::uniform_int_distribution<> distr(0, NUM_NODES - 1);
+	std::uniform_int_distribution<> distr(0, simMap->getNumNodes() - 1);
 
-	for (int k = 0; k < NUM_PLAYERS; k++)
+	for (int k = 0; k < numPlayers; k++)
 	{
         int playerStart;
         int playerEnd;
@@ -26,7 +29,7 @@ Simulation::Simulation()
         }
         /* ensure a player's destination is possible and the player is not
         *  starting and ending at the same place */
-        while ((simMap.traversalDistance(playerStart, playerEnd) == INT_MAX)
+        while ((simMap->traversalDistance(playerStart, playerEnd) == INT_MAX)
             || (playerStart == playerEnd));
 
 		Player* player = new Player(playerStart, playerEnd);
@@ -41,42 +44,44 @@ Simulation::~Simulation()
 	{
         delete players[i];
 	}
+
+    delete simMap;
 }
 
 float Simulation::runSim(WhichAlgorithm greedyOrOptimal)
 {
     int totalTravelTime = 0;
 
-    for (int i = 0; i < NUM_PLAYERS; i++)
+    for (int i = 0; i < numPlayers; i++)
     {
         int start = players[i]->getStart();
         int dest  = players[i]->getDestination();
 
         if (greedyOrOptimal == SELFISH)
         {
-            simMap.traverseSelfish(start, dest);
-            totalTravelTime += simMap.traversalDistance(start, dest);
+            simMap->traverseSelfish(start, dest);
+            totalTravelTime += simMap->traversalDistance(start, dest);
         }
         else if (greedyOrOptimal == OPTIMAL)
         {
-            simMap.traverseOptimal(start, dest);
-            totalTravelTime += simMap.traversalDistance(start, dest);
+            simMap->traverseOptimal(start, dest);
+            totalTravelTime += simMap->traversalDistance(start, dest);
         }
     }
 
-    return (float)totalTravelTime / (float)NUM_PLAYERS;
+    return (float)totalTravelTime / (float)numPlayers;
 }
 
 void Simulation::displayMap()
 {
-	simMap.printGraph();
+	simMap->printGraph();
 }
 
 void Simulation::displayPlayers()
 {
     /*// for debugging
     std::cout << "PLAYERS:" << std::endl;
-	for (int i = 0; i < NUM_PLAYERS; i++)
+	for (int i = 0; i < numPlayers; i++)
 	{
 		std::cout << i << ": ";
 		players[i]->printInfo();
@@ -84,12 +89,12 @@ void Simulation::displayPlayers()
 	*/
 
 	std::cout << "PLAYER TRAVEL DISTANCES:" << std::endl;
-	for (int j = 0; j < NUM_PLAYERS; j++)
+	for (int j = 0; j < numPlayers; j++)
 	{
         int start = players[j]->getStart();
         int dest  = players[j]->getDestination();
 
-        int distance = simMap.traversalDistance(start, dest);
+        int distance = simMap->traversalDistance(start, dest);
 
         std::cout << j << ": " << distance << std::endl;
 
@@ -114,5 +119,5 @@ void Simulation::displayPlayers()
 
 void Simulation::resetGraph()
 {
-    simMap.resetGraph();
+    simMap->resetGraph();
 }
