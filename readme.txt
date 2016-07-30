@@ -22,11 +22,6 @@ To change the number of nodes, change const int NUM_NODES on line 22 of
 To change the maximum edge length, change const int MAX_EDGE_LENGTH on line
   23 of Graph.h
 
-Future Work
------------
-* add a GUI representation of the graph and the traversal by the players
-* run the program through steps of "time" to get real-time congestion
-
 Author
 ------
 Thomas Matlak - The College of Wooster: class of 2018
