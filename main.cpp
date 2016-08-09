@@ -25,29 +25,48 @@
 *----------------------------------------------------------------------------*/
 
 #include <iostream>
+#include <string>
 #include "Simulation.h"
 
-int main()
+int main(int argc, char *argv[])
 {
-    int numPlayers, numNodes, maxEdgeLength;
+    int numPlayers = -1;
+    int numNodes = 0;
+    int maxEdgeLength = 0;
 
-    do
+    if (argc == 4)
+    {
+        numPlayers    = std::stoi(argv[1]);
+        numNodes      = std::stoi(argv[2]);
+        maxEdgeLength = std::stoi(argv[3]);
+    }
+    else if (argc == 3)
+    {
+        numPlayers = std::stoi(argv[1]);
+        numNodes = std::stoi(argv[2]);
+    }
+    else if (argc == 2)
+    {
+        numPlayers = std::stoi(argv[1]);
+    }
+
+    while (numPlayers <= 0)
     {
         std::cout << "Enter the number of players to traverse the graph: ";
         std::cin >> numPlayers;
-    } while (numPlayers <= 0);
+    }
 
-    do
+    while (numNodes < 2)
     {
         std::cout << "Enter the number of nodes for the graph to have: ";
         std::cin >> numNodes;
-    } while (numNodes < 2);
+    }
 
-    do
+    while (maxEdgeLength < 1)
     {
         std::cout << "Enter the maximum length for a graph edge: ";
         std::cin >> maxEdgeLength;
-    } while (maxEdgeLength < 1);
+    }
 
 	Simulation sim(numPlayers, numNodes, maxEdgeLength);
 
