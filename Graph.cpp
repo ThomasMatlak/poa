@@ -100,7 +100,7 @@ void Graph::printGraph()
 
 // A utility function to find the vertex with minimum distance value, from
 // the set of vertices not yet included in shortest path tree
-int minDistance(std::vector<int> & dist, std::vector<bool> & sptSet, Graph & const graph)
+int minDistance(std::vector<int> & dist, std::vector<bool> & sptSet, Graph & graph)
 {
    // Initialize min value
    int min = INT_MAX, min_index;

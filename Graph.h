@@ -85,7 +85,7 @@ public:
 
     int getNumNodes();
 
-    friend int minDistance(std::vector<int>& dist, std::vector<bool>& sptSet, Graph & const graph);
+    friend int minDistance(std::vector<int>& dist, std::vector<bool>& sptSet, Graph & graph);
 private:
     std::vector<Node*> nodes; /* this could be done as a vector of a vector of
                                  adjacent nodes, but this allows for nodes to
