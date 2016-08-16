@@ -16,6 +16,10 @@ Instructions
 ------------
 To run the program, complie source code and run the executable
 
+Optinal command line parameters are `--players` to indicate the number of players,
+  `--nodes` to indicate how many nodes to use,and `--length` to indicate the
+  maximum length of a graph edge.
+
 Author
 ------
 Thomas Matlak - The College of Wooster: class of 2018
