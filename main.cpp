@@ -34,20 +34,22 @@ int main(int argc, char *argv[])
     int numNodes = 0;
     int maxEdgeLength = 0;
 
-    if (argc == 4)
+    std::cout << argv[0];
+
+    for (int i = 1; i < argc; ++i)
     {
-        numPlayers    = std::stoi(argv[1]);
-        numNodes      = std::stoi(argv[2]);
-        maxEdgeLength = std::stoi(argv[3]);
-    }
-    else if (argc == 3)
-    {
-        numPlayers = std::stoi(argv[1]);
-        numNodes = std::stoi(argv[2]);
-    }
-    else if (argc == 2)
-    {
-        numPlayers = std::stoi(argv[1]);
+        if (argv[i] == "--players")
+        {
+            numPlayers = std::stoi(argv[i + 1]);
+        }
+        if (argv[i] == "--nodes")
+        {
+            numNodes = std::stoi(argv[++i]);
+        }
+        if (argv[i] == "--length")
+        {
+            numPlayers = std::stoi(argv[++i]);
+        }
     }
 
     while (numPlayers <= 0)
