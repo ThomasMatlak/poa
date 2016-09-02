@@ -34,24 +34,6 @@ int main(int argc, char *argv[])
     int numNodes = 0;
     int maxEdgeLength = 0;
 
-    std::cout << argv[0];
-
-    for (int i = 1; i < argc; ++i)
-    {
-        if (argv[i] == "--players")
-        {
-            numPlayers = std::stoi(argv[i + 1]);
-        }
-        if (argv[i] == "--nodes")
-        {
-            numNodes = std::stoi(argv[++i]);
-        }
-        if (argv[i] == "--length")
-        {
-            numPlayers = std::stoi(argv[++i]);
-        }
-    }
-
     while (numPlayers <= 0)
     {
         std::cout << "Enter the number of players to traverse the graph: ";
