@@ -6,3 +6,4 @@ poaCalculator
 *.zip
 *.vcxproj
 *.vcxproj.filters
+.vscode
