@@ -30,6 +30,23 @@
 
 int main(int argc, char *argv[])
 {
+    if (argc > 1) {
+        string filename = argv[1];
+
+        ifstream graphFile;
+        graphFile.open(filename);
+
+        int numInputNodes;
+        graphFile >> numInputNodes;
+
+        std::vector<std::vector<int> > inputGraph(numInputNodes, std::vector<int>(numInputNodes));
+        for (int i = 0; i < numInputNodes; ++i) {
+            for (int j = 0; k < numInputNodes; ++j) {
+                graphFile >> inputGraph[i][j];
+            }
+        }
+    }
+
     int numPlayers = -1;
     int numNodes = 0;
     int maxEdgeLength = 0;

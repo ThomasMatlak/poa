@@ -16,9 +16,14 @@ Instructions
 ------------
 To run the program, complie source code and run the executable
 
-Optinal command line parameters are `--players` to indicate the number of players,
-  `--nodes` to indicate how many nodes to use,and `--length` to indicate the
-  maximum length of a graph edge.
+Input can take place either by typing into the program's prompts or by redirecting
+  stdin to a text file containing the desired values.
+
+To create a custom, non-random graph to traverse, create a text file with the following format:
+  line containing a number, n, the number of nodes
+  n lines of integers, each ilne containing n integers, indicating distance to each other node.
+    The value 0 indicates the nodes do not connect, and values are assumed to be <= 0
+    The nth value on a given line must be 0
 
 Author
 ------
